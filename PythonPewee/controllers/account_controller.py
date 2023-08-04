@@ -37,7 +37,7 @@ class AccountController:
     def update_balance(account: Account, amount: float) -> bool:
         balance = account.balance + amount
         limit = account.limit
-        if balance <= limit:
+        if balance >= -limit:
             account.balance += amount
             account.save()
             return True

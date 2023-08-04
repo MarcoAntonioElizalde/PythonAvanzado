@@ -8,7 +8,3 @@ def test_create_user():
     assert user.name == "Marco"
     assert user.age == 12
 
-def test_create_user_on_db():
-    #create_db('../db/db_oltp.db')
-    #user = UserController.create_user(age=60, name='Juan Lopez')
-    pass

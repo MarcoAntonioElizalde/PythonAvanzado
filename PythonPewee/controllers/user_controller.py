@@ -40,3 +40,4 @@ class UserController:
             user.delete_instance()
         else:
             AccountController.delete_account(account)
+            user.delete_instance()

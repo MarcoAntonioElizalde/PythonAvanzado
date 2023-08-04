@@ -1,5 +1,6 @@
 from schemas.account import Account
 from schemas.card import Card
+from controllers.account_controller import AccountController
 from typing import Union
 
 class CardController:
@@ -30,6 +31,35 @@ class CardController:
         card.save()
         return True
 
+
+    @staticmethod
+    def make_a_deposit(card: Card, amount: float):
+        account = Account.get(id=card.account_id)
+        AccountController.update_balance(account, amount)
+
+    @staticmethod
+    def make_a_withdrawal(card: Card, amount: float):
+        account = Account.get(id=card.account_id)
+        AccountController.update_balance(account, -amount)
+
+    @staticmethod
+    def get_credit_available(card: Card):
+        account = Account.get(id=card.account_id)
+        balance = account.balance
+        if balance > 0:
+            return account.limit
+        else:
+            return account.limit + balance
+
+    @staticmethod
+    def get_limit_credit(card: Card):
+        account = Account.get(id=card.account_id)
+        return account.limit
+
+    @staticmethod
+    def get_balance(card: Card):
+        account = Account.get(id=card.account_id)
+        return account.balance
 
     @staticmethod
     def delete_card(card: Card):

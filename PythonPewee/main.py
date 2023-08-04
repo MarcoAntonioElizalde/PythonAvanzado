@@ -107,6 +107,46 @@ def run_crud_card():
     print("CRUD completed from Card schema")
 
 
+def run_card_balance():
+    user = UserController.create_user(age=33, name='Marco Elizalde')
+    account = AccountController.create_account(user=user, balance=15000, open_date=datetime.datetime.now(), limit=50000)
+    card = CardController.create_card(account=account, name="Like U", cvv="666")
+
+    print("Showing initial data for card")
+    print(f"Balance: {CardController.get_balance(card)}, Limit: {CardController.get_limit_credit(card)}, Credit "
+          f"available: {CardController.get_credit_available(card)}")
+    print("Doing a deposit of 2000")
+    CardController.make_a_deposit(card, amount=2000)
+    print(f"Balance: {CardController.get_balance(card)}, Limit: {CardController.get_limit_credit(card)}, Credit "
+          f"available: {CardController.get_credit_available(card)}")
+    print("Doing a withdrawal of 13000")
+    CardController.make_a_withdrawal(card, amount=13000)
+    print(f"Balance: {CardController.get_balance(card)}, Limit: {CardController.get_limit_credit(card)}, Credit "
+          f"available: {CardController.get_credit_available(card)}")
+    print("Doing a withdrawal of 5000")
+    CardController.make_a_withdrawal(card, amount=5000)
+    print(f"Balance: {CardController.get_balance(card)}, Limit: {CardController.get_limit_credit(card)}, Credit "
+          f"available: {CardController.get_credit_available(card)}")
+    print("Doing a withdrawal of 49000")
+    CardController.make_a_withdrawal(card, amount=49000)
+    print(f"Balance: {CardController.get_balance(card)}, Limit: {CardController.get_limit_credit(card)}, Credit "
+          f"available: {CardController.get_credit_available(card)}")
+    print("Doing a withdrawal of 1000 to show not enough credit")
+    CardController.make_a_withdrawal(card, amount=49000)
+    print(f"Balance: {CardController.get_balance(card)}, Limit: {CardController.get_limit_credit(card)}, Credit "
+          f"available: {CardController.get_credit_available(card)}")
+    print("Doing a deposit of 3000 to have a credit again")
+    CardController.make_a_deposit(card, amount=3000)
+    print(f"Balance: {CardController.get_balance(card)}, Limit: {CardController.get_limit_credit(card)}, Credit "
+          f"available: {CardController.get_credit_available(card)}")
+    print("Doing a withdrawal of 1000, valid because we did a deposit before")
+    CardController.make_a_withdrawal(card, amount=1000)
+    print(f"Balance: {CardController.get_balance(card)}, Limit: {CardController.get_limit_credit(card)}, Credit "
+          f"available: {CardController.get_credit_available(card)}")
+
+    print("Completed card balance operations")
+    UserController.delete_user(user)
+
 if __name__ == '__main__':
     create_db('db/db_oltp.db')
     print("")
@@ -118,6 +158,10 @@ if __name__ == '__main__':
     print("")
     print("")
     run_crud_card()
+    print("")
+    print("")
+    run_card_balance()
+
 
 
 
