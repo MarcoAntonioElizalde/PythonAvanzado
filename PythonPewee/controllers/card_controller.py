@@ -1,6 +1,10 @@
+import datetime
+
 from schemas.account import Account
 from schemas.card import Card
 from controllers.account_controller import AccountController
+from controllers.charge_controller import ChargeController
+from controllers.payment_controller import PaymentController
 from typing import Union
 
 class CardController:
@@ -31,16 +35,14 @@ class CardController:
         card.save()
         return True
 
-
     @staticmethod
     def make_a_deposit(card: Card, amount: float):
-        account = Account.get(id=card.account_id)
-        AccountController.update_balance(account, amount)
+        PaymentController.make_a_payment(card, datetime.datetime.now(), amount)
+
 
     @staticmethod
     def make_a_withdrawal(card: Card, amount: float):
-        account = Account.get(id=card.account_id)
-        AccountController.update_balance(account, -amount)
+        ChargeController.make_a_charge(card, datetime.datetime.now(), amount)
 
     @staticmethod
     def get_credit_available(card: Card):

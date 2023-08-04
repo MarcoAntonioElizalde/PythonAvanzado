@@ -49,4 +49,3 @@ def test_card_balance():
     assert CardController.get_credit_available(card) == 2000
 
     UserController.delete_user(user)
-    
