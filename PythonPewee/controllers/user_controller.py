@@ -25,6 +25,12 @@ class UserController:
         return user
 
     @staticmethod
+    def update_age(user: User, age: int) -> User:
+        user.age = age
+        user.save()
+        return user
+
+    @staticmethod
     def delete_user(user: User):
         try:
             account = Account.get(user_id=user.id)

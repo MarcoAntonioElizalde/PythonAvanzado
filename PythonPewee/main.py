@@ -1,4 +1,3 @@
-
 from db.migrations import create_db
 from controllers.user_controller import UserController
 from controllers.account_controller import AccountController
@@ -9,20 +8,117 @@ from schemas.card import Card
 import datetime
 
 
+def run_crud_user():
+    print("Running CRUD for user:")
+    print("Creating user Marco Elizalde, age 33 years old")
+    user = UserController.create_user(age=33, name='Marco Elizalde')
+
+    try:
+        print("Showing all the users:")
+        for i in User.select():
+            print(f"({i.id}, {i.name}, {i.age})")
+    except:
+        print("No user found")
+
+    print("Reading user from DB")
+    user = UserController.get_user_by_name(name='Marco Elizalde')
+    print(f"Showing user information Id: {user.id}, Name: {user.name}, Age: {user.age}")
+    print("Updating age to 25")
+    user = UserController.update_age(user, age=25)
+    print(f"Showing user information after update Id: {user.id}, Name: {user.name}, Age: {user.age}")
+    print("Deleting user")
+    UserController.delete_user(user)
+
+    try:
+        print("Showing all the users:")
+        for i in User.select():
+            print(f"({i.id}, {i.name}, {i.age})")
+    except:
+        print("No users found")
+
+    print("CRUD completed from User schema")
+
+def run_crud_account():
+    print("Running CRUD for account:")
+    print("Creating account balance = 15000 and limite = 50000")
+    user = UserController.create_user(age=33, name='Marco Elizalde')
+    account = AccountController.create_account(user=user, balance=15000, open_date=datetime.datetime.now(), limit=50000)
+
+    try:
+        print("Showing all the accounts:")
+        for i in Account.select():
+            print(f"({i.id}, {i.user_id}, {i.balance}, {i.open_date}, {i.limit})")
+    except:
+        print("No accounts found")
+
+    print("Reading account from DB")
+    account = AccountController.get_account_by_user(user)
+    print(f"Showing account information Id: {account.id}, User id: {account.user_id}, Balance: {account.balance}, Open date: {account.open_date}, Limit: {account.limit}")
+    print("Updating balance= 50000+12000, limit = 20000")
+    AccountController.update_balance(account, amount=12000)
+    AccountController.update_limit(account, limit=12000)
+    print(f"Showing account information after update Id: {account.id}, User id: {account.user_id}, Balance: {account.balance}, Open date: {account.open_date}, Limit: {account.limit}")
+    print("Deleting account and user associated")
+    #AccountController.delete_account(account)
+    UserController.delete_user(user)
+
+    try:
+        print("Showing all the accounts:")
+        for i in Account.select():
+            print(f"({i.id}, {i.user_id}, {i.balance}, {i.open_date}, {i.limit})")
+    except:
+        print("No accounts found")
+
+    print("CRUD completed from Account schema")
+
+
+def run_crud_card():
+    print("Running CRUD for card:")
+    print("Creating card name = Like U and cvv = 666")
+    user = UserController.create_user(age=33, name='Marco Elizalde')
+    account = AccountController.create_account(user=user, balance=15000, open_date=datetime.datetime.now(), limit=50000)
+    card = CardController.create_card(account=account, name="Like U", cvv="666")
+
+    try:
+        print("Showing all the cards:")
+        for i in Card.select():
+            print(f"({i.id}, {i.account_id}, {i.name}, {i.cvv})")
+    except:
+        print("No cards found")
+
+    print("Reading card from DB")
+    card = CardController.get_card_by_account(account)
+    print(f"Showing card information Id: {card.id}, account id: {card.account_id}, name: {card.name}, cvv: {card.cvv}")
+    print("Updating cvv = 555")
+    CardController.update_cvv(card, cvv=555)
+    print(f"Showing card information after update Id: {card.id}, account id: {card.account_id}, name: {card.name}, cvv: {card.cvv}")
+    print("Deleting card, account and user associated")
+    #CardController.delete_card(card)
+    #AccountController.delete_account(account)
+    UserController.delete_user(user)
+
+    try:
+        print("Showing all the cards:")
+        for i in Card.select():
+            print(f"({i.id}, {i.account_id}, {i.name}, {i.cvv})")
+    except:
+        print("No cards found")
+
+    print("CRUD completed from Card schema")
+
+
 if __name__ == '__main__':
     create_db('db/db_oltp.db')
-    user = UserController.create_user(age=60, name='Juan Lopez')
-    account = AccountController.create_account(user=user, balance=0, open_date=datetime.datetime.now(), limit=50000)
-    card = CardController.create_card(account=account, name="Platinum",cvv="666")
+    print("")
+    print("")
+    run_crud_user()
+    print("")
+    print("")
+    run_crud_account()
+    print("")
+    print("")
+    run_crud_card()
 
-    #AccountController.update_limit(account, 3000)
-    AccountController.update_balance(account, 3000)
 
-    for i in Account.select():
-        print(i.id, i.user_id, i.balance, i.open_date, i.limit)
 
-    for i in User.select():
-        print(i.id, i.name, i.age)
 
-    for i in Card.select():
-        print(i.id, i.account_id, i.name, i.cvv)

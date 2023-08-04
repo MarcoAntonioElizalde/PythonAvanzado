@@ -51,8 +51,10 @@ class AccountController:
         if limit > 0:
             account.limit += limit
             account.save()
+            return True
         else:
             print("Limit must be positive")
+            return False
 
     @staticmethod
     def delete_account(account: Account):
