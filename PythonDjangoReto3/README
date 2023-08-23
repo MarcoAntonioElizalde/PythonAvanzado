@@ -1,0 +1,40 @@
+Paths available:
+        'users/'
+            POST example:
+            {
+                "name": "Name",
+                "age": 32
+            },
+        'users/<str:username>'
+        'accounts/'
+            POST example:
+             {
+                "account_number": "145896654465",
+                "balance": 2000.0,
+                "limit": 25000.0,
+                "user_id": 3
+            }
+        'accounts/<str:id>'
+        'cards/'
+            POST example:
+            {
+                "name": "BBVA Free",
+                "cvv": "889",
+                "account_number": null
+            }
+
+        'cards/<str:id>'
+        'charges/'
+            POST example:
+            {
+                "amount": 2.0,
+                "card_id": 1
+            }
+        'charges/<str:id>'
+        'payments/'
+            ¨POST Example:
+            {
+                "amount": 30.0,
+                "card_id": 1
+            }
+        'payments/<str:id>'
